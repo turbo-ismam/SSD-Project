@@ -62,12 +62,12 @@ plt.plot(x_2, p6(x_2), color="grey", label="Polinomio Grado 6")
 plt.plot(x_2, p10(x_2), color="orange", label="Polinomio Grado 10")
 
 # Scarto quadratico medio
-print("Scarto quadratico medio con polinomio di grado 2: ", err2)
-print("Scarto quadratico medio con polinomio di grado 3: ", err3)
-print("Scarto quadratico medio con polinomio di grado 4: ", err4)
-print("Scarto quadratico medio con polinomio di grado 5: ", err5)
-print("Scarto quadratico medio con polinomio di grado 6: ", err6)
-print("Scarto quadratico medio con polinomio di grado 6: ", err10)
+print("Errore quadratico medio con polinomio di grado 2: ", err2)
+print("Errore quadratico medio con polinomio di grado 3: ", err3)
+print("Errore quadratico medio con polinomio di grado 4: ", err4)
+print("Errore quadratico medio con polinomio di grado 5: ", err5)
+print("Errore quadratico medio con polinomio di grado 6: ", err6)
+print("Errore quadratico medio con polinomio di grado 6: ", err10)
 
 plt.title("Funzioni di approssimazione")
 plt.xlabel("Numero mesi")
