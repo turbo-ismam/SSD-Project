@@ -5,6 +5,9 @@ from sklearn.metrics import mean_squared_error
 from statsmodels.tsa.seasonal import seasonal_decompose
 import statsmodels.api as sm
 import math
+from scipy.optimize import leastsq
+import scipy.stats as stats
+from scipy.stats import gamma
 
 # Importo i dati
 df = pd.read_csv("seriefit2021.csv")
@@ -60,13 +63,43 @@ p10 = np.poly1d(poly10)
 mse_poly10 = mean_squared_error(y_2, p10(x_2))
 rmse_poly10 = math.sqrt(mse_poly10)
 
-plt.plot(x, y, color="black", label="Fit")
-plt.plot(x_2, p2(x_2), color="brown", label="Polinomio Grado 2")
-plt.plot(x_2, p3(x_2), color="pink", label="Polinomio Grado 3")
-plt.plot(x_2, p4(x_2), color="cyan", label="Polinomio Grado 4")
-plt.plot(x_2, p5(x_2), color="olive", label="Polinomio Grado 5")
-plt.plot(x_2, p6(x_2), color="grey", label="Polinomio Grado 6")
-plt.plot(x_2, p10(x_2), color="orange", label="Polinomio Grado 10")
+
+# Funzione Gamma
+
+def my_res(params, yData):
+    a, b = params
+    xList = range(1, len(yData) + 1)
+    th = np.fromiter((stats.gamma.pdf(x, a, loc=0, scale=b) for x in xList), np.float)
+    diff = th - np.array(yData)
+    return diff
+
+
+x_g = np.linspace(0, 65, 66)
+y_g = df['y']
+
+# making a least square fit with the pdf
+sol, err = leastsq( my_res, [.4, 1 ], args=(y_g , ) )
+datath = [ stats.gamma.pdf( z, sol[0], loc=0, scale=sol[1]) for z in range(0,65) ]
+
+# the result gives the expected answer
+plop=stats.gamma.pdf(x_g, sol[0], loc=0, scale=sol[1])
+
+y_gamma = gamma.pdf(x_g, sol[0], loc=0, scale=sol[1]) * 180000
+
+mse_gamma = mean_squared_error(y_g, y_gamma)
+rmse_gamma = math.sqrt(mse_gamma)
+
+plt.plot(x, y, label="Fit")
+plt.plot(x_2, p2(x_2), label="Polinomio Grado 2")
+plt.plot(x_2, p3(x_2), label="Polinomio Grado 3")
+plt.plot(x_2, p4(x_2), label="Polinomio Grado 4")
+plt.plot(x_2, p5(x_2), label="Polinomio Grado 5")
+plt.plot(x_2, p6(x_2), label="Polinomio Grado 6")
+plt.plot(x_2, p10(x_2), label="Polinomio Grado 10")
+plt.plot(x, y_gamma, label="Gamma Function")
+
+plt.legend()
+plt.show()
 
 # MSE & RMSE dei polinomi
 print('Polinomio grado 2 | MSE: {0:0.3f} | RMSE: ({1:0.3f})'.format(mse_poly2, rmse_poly2))
@@ -75,12 +108,7 @@ print('Polinomio grado 4 | MSE: {0:0.3f} | RMSE: ({1:0.3f})'.format(mse_poly4, r
 print('Polinomio grado 5 | MSE: {0:0.3f} | RMSE: ({1:0.3f})'.format(mse_poly5, rmse_poly5))
 print('Polinomio grado 6 | MSE: {0:0.3f} | RMSE: ({1:0.3f})'.format(mse_poly6, rmse_poly6))
 print('Polinomio grado 10 | MSE: {0:0.3f} | RMSE: ({1:0.3f})'.format(mse_poly10, rmse_poly10))
-
-plt.title("Funzioni di approssimazione")
-plt.xlabel("Numero mesi")
-plt.ylabel("Valore")
-plt.legend()
-plt.show()
+print('Funzione Gamma | MSE: {0:0.3f} | RMSE: ({1:0.3f})'.format(mse_gamma, rmse_gamma))
 
 # Osservando gli andamenti delle funzioni e i relativi MSE ritengo che i polinomi di grado 2 e 4 siano le migliori
 # approssimazioni possibili.
