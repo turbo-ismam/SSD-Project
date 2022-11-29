@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="9c5f4f4d-a51d-4506-9314-87e349fe1926" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/../Esercizio1/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../Esercizio1/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,7 +31,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Esercizio1" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
